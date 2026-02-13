@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Love Story 💕</title>
+
+<style>
+body {
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#1e1e2f,#2b1055);
+    color:white;
+    text-align:center;
+    overflow:hidden;
+}
+
+.screen {
+    display:none;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.active { display:flex; }
+
+button {
+    padding:12px 25px;
+    margin:10px;
+    font-size:18px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+input {
+    padding:10px;
+    font-size:16px;
+    border-radius:20px;
+    border:none;
+    text-align:center;
+}
+
+#yesBtn { background:#ff4081; color:white; }
+#yesBtn:hover { transform:scale(1.1); }
+
+#noBtn {
+    background:#aaa;
+    position:absolute;
+}
+
+.heart {
+    position:absolute;
+    font-size:24px;
+    animation:float 5s linear infinite;
+}
+
+@keyframes float {
+    0%{transform:translateY(0);opacity:1;}
+    100%{transform:translateY(-100vh);opacity:0;}
+}
+
+.slideshow img {
+    width:250px;
+    border-radius:20px;
+    margin:10px;
+    box-shadow:0 0 20px #ff4081;
+}
+
+.confetti {
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:red;
+    animation:fall 3s linear infinite;
+}
+
+@keyframes fall {
+    0%{transform:translateY(-100px);}
+    100%{transform:translateY(100vh);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="your-song.mp3" loop></audio>
+
+<!-- Intro -->
+<div class="screen active" id="intro">
+    <h1>Hey Masungit!😂❤️</h1>
+    <p>I made something special for you...</p>
+    <button onclick="nextScreen('lock')">Enter 💌</button>
+</div>
+
+<!-- Password -->
+<div class="screen" id="lock">
+    <h2>HINT COLOR BLUE! </h2>
+    <input type="password" id="password" placeholder="Disney Character">
+    <button onclick="checkPassword()">Unlock 💖</button>
+    <p id="wrong" style="color:#ff4081;"></p>
+</div>
+
+<!-- Slideshow -->
+<div class="screen" id="memory">
+    <h2>CUTE PICS OF STITCH! 📸</h2>
+    <div class="slideshow">
+        <img src="s2.jpg">
+        <img src="s1.jpg">
+        <img src="s4.jpg">
+    </div>
+    <button onclick="nextScreen('quiz')">Next ➡</button>
+</div>
+
+<!-- Quiz -->
+<div class="screen" id="quiz">
+    <h2>Mini Love Quiz 💘</h2>
+    <p>Who loves the other more?</p>
+    <button onclick="nextScreen('proposal')">You 😍</button>
+    <button onclick="nextScreen('proposal')">Me 😘</button>
+</div>
+
+<!-- Proposal -->
+<div class="screen" id="proposal">
+    <h1>Will You Be My Valentine? 💖</h1>
+    <button id="yesBtn">YESSS ❤️</button>
+    <button id="noBtn">No 🙈</button>
+</div>
+
+<!-- Success -->
+<div class="screen" id="success">
+    <h1>You said yes!!! 💕🎉</h1>
+    <p> "I’ve been smiling ever since you said yes. I’m so excited to spend Valentine's Day with you and get to know you better.
+ ✨</p>
+</div>
+
+<script>
+function nextScreen(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function checkPassword(){
+    const pass = document.getElementById("password").value;
+    if(pass === "stitch"){
+        nextScreen('memory');
+        document.getElementById("bgMusic").play();
+    } else {
+        document.getElementById("wrong").innerText = "Hint: The day our story began ❤️";
+    }
+}
+
+const noBtn = document.getElementById("noBtn");
+let count = 0;
+
+noBtn.addEventListener("mouseover",()=>{
+    count++;
+    noBtn.style.left = Math.random()*window.innerWidth+"px";
+    noBtn.style.top = Math.random()*window.innerHeight+"px";
+    if(count>5){
+        noBtn.innerText="Click YES already 😜";
+    }
+});
+
+document.getElementById("yesBtn").addEventListener("click",()=>{
+    nextScreen('success');
+    startCelebration();
+});
+
+function startCelebration(){
+    setInterval(()=>{
+        const heart=document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*window.innerWidth+"px";
+        heart.style.bottom="0px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),5000);
+    },300);
+
+    setInterval(()=>{
+        const conf=document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left=Math.random()*window.innerWidth+"px";
+        conf.style.background=`hsl(${Math.random()*360},100%,50%)`;
+        document.body.appendChild(conf);
+        setTimeout(()=>conf.remove(),3000);
+    },200);
+}
+</script>
+
+</body>
+</html>
